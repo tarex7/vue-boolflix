@@ -18,13 +18,15 @@
           </button>
         </div>
       </div>
+      <!-- Movies -->
+      <h1 class="text-center" v-show="hasLoaded">Movies</h1>
       <ul>
-        <li v-for="movie in searchedContents" :key="movie.id">
+        <li v-for="movie in searchedMovies" :key="movie.id">
           <strong>{{ movie.title }}</strong>
           <ul>
-            <li class="my-2">Titolo originale {{ movie.original_title }}</li>
+            <li class="my-2">Titolo originale: {{ movie.original_title }}</li>
             <li class="my-2">
-              Lingua originale
+              Lingua originale:
               {{ movie.original_language }}
               <img
                 v-if="
@@ -32,10 +34,35 @@
                   movie.original_language === 'it'
                 "
                 :src="require(`./assets/flags/${movie.original_language}.png`)"
-                alt="no"
+                :alt="movie.original_language"
               />
             </li>
-            <li class="my-2">Voto {{ movie.vote_average }}</li>
+            <li class="my-2">Voto: {{ movie.vote_average }}</li>
+          </ul>
+        </li>
+      </ul>
+      <!-- TV series -->
+      <h1 class="text-center" v-show="hasLoaded">Tv Series</h1>
+      <ul>
+        <li v-for="TVSerie in searchedTV" :key="TVSerie.id">
+          <strong>{{ TVSerie.name }}</strong>
+          <ul>
+            <li class="my-2">Titolo originale: {{ TVSerie.original_name }}</li>
+            <li class="my-2">
+              Lingua originale:
+              {{ TVSerie.original_language }}
+              <img
+                v-if="
+                  TVSerie.original_language === 'en' ||
+                  TVSerie.original_language === 'it'
+                "
+                :src="
+                  require(`./assets/flags/${TVSerie.original_language}.png`)
+                "
+                :alt="TVSerie.original_language"
+              />
+            </li>
+            <li class="my-2">Voto: {{ TVSerie.vote_average }}</li>
           </ul>
         </li>
       </ul>
@@ -52,7 +79,9 @@ export default {
       searchQuery: "",
       baseURI: "https://api.themoviedb.org/3/search",
       apiKey: "8f030f64cafc8883928f433bfac05217",
-      searchedContents: [],
+      hasLoaded: false,
+      searchedMovies: [],
+      searchedTV: [],
     };
   },
   components: {},
@@ -61,10 +90,20 @@ export default {
       if (!this.searchQuery) return;
       axios
         .get(
-          `${this.baseURI}/movie?api_key=${this.apiKey}&query=${this.searchQuery}`
+          `${this.baseURI}/movie?api_key=${this.apiKey}&query=${this.searchQuery},`
         )
         .then((res) => {
-          this.searchedContents = res.data.results;
+          this.searchedMovies = res.data.results;
+          this.hasLoaded = true;
+        });
+      axios
+        .get(
+          `${this.baseURI}/tv?api_key=${this.apiKey}&query=${this.searchQuery}`
+        )
+        .then((res) => {
+          this.searchedTV = res.data.results;
+          this.hasLoaded = true;
+          this.searchQuery = "";
         });
     },
   },
