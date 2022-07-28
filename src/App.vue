@@ -22,9 +22,20 @@
         <li v-for="movie in searchedContents" :key="movie.id">
           <strong>{{ movie.title }}</strong>
           <ul>
-            <li>Titolo originale {{ movie.original_title }}</li>
-            <li>Lingua originale {{ movie.original_language }}</li>
-            <li>Voto {{ movie.vote_average }}</li>
+            <li class="my-2">Titolo originale {{ movie.original_title }}</li>
+            <li class="my-2">
+              Lingua originale
+              {{ movie.original_language }}
+              <img
+                v-if="
+                  movie.original_language === 'en' ||
+                  movie.original_language === 'it'
+                "
+                :src="require(`./assets/flags/${movie.original_language}.png`)"
+                alt="no"
+              />
+            </li>
+            <li class="my-2">Voto {{ movie.vote_average }}</li>
           </ul>
         </li>
       </ul>
@@ -62,4 +73,8 @@ export default {
 
 <style lang="scss">
 @import "~bootstrap/scss/bootstrap";
+img {
+  width: 40px;
+  margin-left: 5px;
+}
 </style>
