@@ -23,6 +23,10 @@
       <ul>
         <li v-for="movie in searchedMovies" :key="movie.id">
           <strong>{{ movie.title }}</strong>
+          <img
+            :src="`https://image.tmdb.org/t/p/w342${movie.poster_path}`"
+            alt=""
+          />
           <ul>
             <li class="my-2">Titolo originale: {{ movie.original_title }}</li>
             <li class="my-2">
@@ -35,9 +39,20 @@
                 "
                 :src="require(`./assets/flags/${movie.original_language}.png`)"
                 :alt="movie.original_language"
+                class="flag"
               />
             </li>
-            <li class="my-2">Voto: {{ movie.vote_average }}</li>
+            <li class="my-2">
+              Voto:
+              <i
+                v-for="(star, i) in 5"
+                :key="star.id"
+                class="fa-solid fa-star"
+                :class="{
+                  'text-warning': i < Math.ceil(movie.vote_average / 2),
+                }"
+              ></i>
+            </li>
           </ul>
         </li>
       </ul>
@@ -62,7 +77,9 @@
                 :alt="TVSerie.original_language"
               />
             </li>
-            <li class="my-2">Voto: {{ TVSerie.vote_average }}</li>
+            <li class="my-2">
+              Voto: <i class="fa-solid fa-star text-success"></i>
+            </li>
           </ul>
         </li>
       </ul>
@@ -112,7 +129,7 @@ export default {
 
 <style lang="scss">
 @import "~bootstrap/scss/bootstrap";
-img {
+.flag {
   width: 40px;
   margin-left: 5px;
 }
