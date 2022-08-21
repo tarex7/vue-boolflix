@@ -1,5 +1,5 @@
 {
-  "name": "vue-boolflix",
+  "name": "boolflix_comp",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,7 +11,8 @@
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
     "core-js": "^3.8.3",
-    "vue": "^2.6.14"
+    "vue": "^2.6.14",
+    "vue-horizontal-scroll": "^0.2.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

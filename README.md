@@ -1,4 +1,4 @@
-# vue-boolflix
+# boolflix_comp
 
 ## Project setup
 ```
