@@ -22,7 +22,8 @@
           <strong>{{ movie.name }} </strong>
 
           <li class="my-2" v-if="movie.original_title !== movie.title">
-            Titolo originale: {{ movie.original_title }}
+            Titolo originale: <br />
+            {{ movie.original_title }}
           </li>
           <!--Backdrop Original language -->
           <li class="my-2" v-if="!movie.original_language">
@@ -38,6 +39,7 @@
               :alt="movie.original_language"
               class="flag"
             />
+
             <p v-else>Lingua originale: {{ movie.original_language }}</p>
           </li>
           <!-- Vote -->
@@ -63,7 +65,7 @@
       />
       <img v-else :src="`${this.imgBaseURL}${movie.backdrop_path}`" alt="" />
       <!--Movie Overlay -->
-      <div v-if="search" class="overlay text-white">
+      <div class="overlay text-white">
         <!-- Movie  -->
         <!-- Movie title -->
         <h5 class="m-0">{{ movie.title }}</h5>
@@ -75,6 +77,7 @@
         <!-- Original language -->
         <li class="m-0 d-flex align-items-center">
           <strong>Lingua originale: </strong>
+
           <!-- Flags image -->
           <img
             v-if="
@@ -86,11 +89,15 @@
             :alt="movie.original_language"
             class="flag"
           />
+
           <!-- Original language -->
           <p class="ms-1" v-else>
             {{ movie.original_language }}
           </p>
         </li>
+        <strong v-if="movie.origin_country">Paese d'origine: </strong>
+        <span v-if="movie.origin_country" :class="`fi fi-${countryFlag}`">
+        </span>
         <!-- Year -->
         <li v-if="movie.release_date" class="m-0">
           <strong>Anno:</strong>
@@ -101,7 +108,7 @@
           {{ serieDate }}
         </li>
         <!-- Genre -->
-        <li class="m-0">
+        <li class="m-0" v-if="search">
           <strong>Genere:</strong>
           <span class="m-0" v-for="(genre, i) in movie.genre_ids" :key="i">
             {{ genre }},
@@ -124,16 +131,20 @@
           <strong>Voti totali:</strong> {{ movie.vote_count }}
         </li>
         <div class="m-0">
-          <p class="m-0"><strong>Cast:</strong></p>
+          <p v-if="movie.cast" class="m-0"><strong>Cast:</strong></p>
           <!-- Cast -->
           <span v-for="(actor, i) in mediaCasts[i]" :key="i" class="m-0">
             {{ actor.name }},
           </span>
         </div>
         <!-- Overview -->
-        <p class="m-0" v-if="movie.overview"><strong>Trama:</strong></p>
+        <p class="m-0" v-if="movie.overview && search">
+          <strong>Trama:</strong>
+        </p>
         <div class="overview">
-          <p class="m-0">{{ movie.overview }}</p>
+          <p class="m-0" v-if="movie.overview && search">
+            {{ movie.overview }}
+          </p>
         </div>
       </div>
     </div>
@@ -141,6 +152,7 @@
 </template>
 
 <script>
+import CountryFlag from "vue-country-flag";
 export default {
   name: "BaseCard",
   data() {
@@ -148,6 +160,7 @@ export default {
       imgBaseURL: "https://image.tmdb.org/t/p/w342",
     };
   },
+  component: { CountryFlag },
   props: {
     movie: Object,
     i: Number,
@@ -169,13 +182,16 @@ export default {
       if (this.movie.title) return this.movie.title;
       return this.movie.name;
     },
+    countryFlag() {
+      return this.movie.origin_country[0].toLowerCase();
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .flag {
-  width: 25px;
+  width: 20px;
   margin-left: 5px;
 }
 
@@ -199,10 +215,6 @@ ul {
   list-style: none;
 }
 
-.debug {
-  border: 1px red solid;
-}
-
 .card {
   min-height: 100%;
   cursor: pointer;
@@ -218,19 +230,17 @@ ul {
 }
 
 .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 240px;
-  height: 100%;
+  position: relative;
+  top: -100%;
+  left: -0;
+  min-width: 200px;
   background-color: rgba($color: #000, $alpha: 0.8);
-  padding: 20px;
+  padding: 10px;
   border-radius: 5px;
   opacity: 0;
   transition: all 0.8s;
   overflow: scroll;
-  height: 100%;
-  word-break: break-all;
+  min-height: 100%;
 
   &::-webkit-scrollbar {
     width: 0 !important;
