@@ -44,13 +44,7 @@ export default {
 
 <style lang="scss" scoped>
 .form-control {
-  height: 100%;
+  height: 80%;
   padding: 0;
-}
-button {
-  height: 30px;
-  width: 80px;
-  padding: 0 10px;
-  margin-left: 10px;
 }
 </style>

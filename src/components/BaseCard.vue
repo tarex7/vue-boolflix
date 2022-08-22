@@ -48,7 +48,7 @@
               :key="star.id"
               class="fa-solid fa-star ms-1"
               :class="{
-                'text-warning': i < Math.ceil(movie.vote_average / 2),
+                'text-warning': i < vote,
               }"
             ></i>
           </li>
@@ -58,14 +58,10 @@
       <!-- Movie poster -->
       <img
         v-if="movie.poster_path"
-        :src="`https://image.tmdb.org/t/p/w342${movie.poster_path}`"
-        alt=""
+        :src="`${imgBaseURL}${movie.poster_path}`"
+        :alt="title"
       />
-      <img
-        v-else
-        :src="`https://image.tmdb.org/t/p/w342${movie.backdrop_path}`"
-        alt=""
-      />
+      <img v-else :src="`${this.imgBaseURL}${movie.backdrop_path}`" alt="" />
       <!--Movie Overlay -->
       <div v-if="search" class="overlay text-white">
         <!-- Movie  -->
@@ -98,11 +94,11 @@
         <!-- Year -->
         <li v-if="movie.release_date" class="m-0">
           <strong>Anno:</strong>
-          {{ movie.release_date.split("-")[0] }}
+          {{ movieDate }}
         </li>
         <li v-if="movie.first_air_date" class="m-0">
           <strong>Anno:</strong>
-          {{ movie.first_air_date.split("-")[0] }}
+          {{ serieDate }}
         </li>
         <!-- Genre -->
         <li class="m-0">
@@ -120,7 +116,7 @@
             :key="star.id"
             class="fa-solid fa-star ms-1"
             :class="{
-              'text-warning': i < Math.ceil(movie.vote_average / 2),
+              'text-warning': i < vote,
             }"
           ></i
           ><br />
@@ -135,7 +131,7 @@
           </span>
         </div>
         <!-- Overview -->
-        <p class="m-0" v-if="movie.overview"><strong>Overview:</strong></p>
+        <p class="m-0" v-if="movie.overview"><strong>Trama:</strong></p>
         <div class="overview">
           <p class="m-0">{{ movie.overview }}</p>
         </div>
@@ -147,13 +143,39 @@
 <script>
 export default {
   name: "BaseCard",
-  props: { movie: Object, i: Number, mediaCasts: Array, search: Boolean },
+  data() {
+    return {
+      imgBaseURL: "https://image.tmdb.org/t/p/w342",
+    };
+  },
+  props: {
+    movie: Object,
+    i: Number,
+    mediaCasts: Array,
+    search: Boolean,
+    mediaType: String,
+  },
+  computed: {
+    vote() {
+      return Math.ceil(this.movie.vote_average / 2);
+    },
+    movieDate() {
+      return this.movie.release_date.split("-")[0];
+    },
+    serieDate() {
+      return this.movie.first_air_date.split("-")[0];
+    },
+    title() {
+      if (this.movie.title) return this.movie.title;
+      return this.movie.name;
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .flag {
-  width: 30px;
+  width: 25px;
   margin-left: 5px;
 }
 
@@ -193,16 +215,13 @@ ul {
   &:hover .overlay {
     opacity: 1;
   }
-  &:hover .overlay2 {
-    opacity: 1;
-  }
 }
 
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
-  min-width: 290px;
+  min-width: 240px;
   height: 100%;
   background-color: rgba($color: #000, $alpha: 0.8);
   padding: 20px;
@@ -221,5 +240,9 @@ ul {
 .backdrop {
   filter: opacity(0.3);
   min-width: 290px;
+}
+
+h5 {
+  font-size: 0.9rem;
 }
 </style>

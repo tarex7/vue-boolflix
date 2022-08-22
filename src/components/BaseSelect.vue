@@ -36,8 +36,9 @@ export default {
 
 <style lang="scss" scoped>
 .form-select {
-  height: 100%;
+  height: 80%;
   padding: 0;
   width: 200px;
+  margin-top: 3px;
 }
 </style>

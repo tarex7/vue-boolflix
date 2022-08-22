@@ -57,11 +57,9 @@ export default {
   components: { SearchBar, BaseSelect },
   methods: {
     setSearchMedia(selected) {
-      if (selected.genreName === "Film") {
-        this.searchMedia = "movie";
-      } else {
-        this.searchMedia = "tv";
-      }
+      selected.genreName === "Film"
+        ? (this.searchMedia = "movie")
+        : (this.searchMedia = "tv");
     },
     set(selected) {
       this.$emit(
@@ -77,12 +75,11 @@ export default {
 
 <style lang="scss" scoped>
 header {
-  height: 60px;
-  line-height: 100px;
+  height: 50px;
   background-color: #1c1c1c;
   display: flex;
   align-items: center;
-  padding: 0 35px;
+  padding: 0;
 }
 
 #logo {

@@ -1,11 +1,11 @@
 <template>
-  <div id="app">
-    <horizontal-scroll class="bg-grey">
-      <h1 class="text-white ms-5 p-absolute">Top movies</h1>
-      <ul class="row flex-nowrap scroll">
+  <div id="app" class="">
+    <h2 class="text-white ms-3">Top movies</h2>
+    <horizontal-scroll class="">
+      <ul class="row flex-nowrap scroll d-flex align-items-center">
         <li class="col" v-for="(movie, i) in movieTrendings" :key="movie.id">
           <BaseCard
-            class="mx-1 h-400"
+            class="px-1 d-flex justify-content-center h-400 w-300 my-1"
             :movie="movie"
             :i="i"
             :mediaCasts="mediaCasts"
@@ -14,12 +14,12 @@
       </ul>
     </horizontal-scroll>
 
-    <horizontal-scroll class="bg-grey">
-      <h1 class="text-white ms-5 p-absolute">Top TV series</h1>
+    <h2 class="text-white ms-3">Top TV series</h2>
+    <horizontal-scroll class="">
       <ul class="row flex-nowrap scroll">
         <li class="col" v-for="(movie, i) in serieTrendings" :key="movie.id">
           <BaseCard
-            class="mx-1 h-400"
+            class="px-1 d-flex justify-content-center h-400 w-300 my-1"
             :movie="movie"
             :i="i"
             :mediaCasts="mediaCasts"
@@ -46,25 +46,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 .scroll {
-  height: 390px;
-}
-
-._horizontal-scroll[data-v-5ce095ec] {
-  padding: 0px;
+  height: 300px;
 }
 
 ._horizontal-scroll[data-v-5ce095ec]::-webkit-scrollbar {
   display: none;
 }
 
-h1 {
+h2 {
   z-index: 5;
-  background-color: rgba($color: #000000, $alpha: 0.7);
-  left: -3%;
-  padding: 10px 20px;
+  //background-color: rgba($color: #000000, $alpha: 0.7);
+  margin-bottom: 10px;
+  margin-left: 40px;
   border-radius: 0 5px 5px 0;
-  margin-top: 5px;
-  width: 325px;
+  width: 280px;
 }
 
 .debug {
@@ -73,10 +68,6 @@ h1 {
 
 li {
   list-style-type: none;
-}
-
-.h-400 {
-  height: 400px;
 }
 
 .card {
@@ -135,5 +126,13 @@ li {
 
 .p-absolute {
   position: absolute;
+}
+
+.h-400 {
+  height: 300px;
+}
+
+.w-300 {
+  width: 220px;
 }
 </style>

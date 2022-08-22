@@ -3,10 +3,10 @@
     <BaseHeader
       :genres="genres"
       :TVgenres="TVgenres"
-      @search="callAPI"
+      @search="getMediaData"
       @selection="setSearchMedia"
       @home="showHome"
-      @selectedGenre="callAPI"
+      @selectedGenre="getMediaData"
     />
     <TheMain
       :media="media"
@@ -48,11 +48,12 @@ export default {
   },
   components: { BaseHeader, TheMain },
   methods: {
-    callAPI(searchType, mediaType, param) {
+    getMediaData(searchType, mediaType, param) {
       this.media = [];
       this.mediaID = [];
       this.mediaCasts = [];
       this.mediaGenres = [];
+      this.mediaType = mediaType;
 
       this.search = true;
       axios
@@ -225,6 +226,6 @@ body {
 
 li {
   list-style: none;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 }
 </style>
